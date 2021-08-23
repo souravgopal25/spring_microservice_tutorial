@@ -14,6 +14,10 @@ import java.util.List;
 public class MovieCatalogResource {
     @GetMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
+        //get all rated movie ID's
+        //For each movie Id, call movie info service and get details
+
+        //put them all together
         return Collections.singletonList(new CatalogItem("Transformers", "test", 4));
 
     }
