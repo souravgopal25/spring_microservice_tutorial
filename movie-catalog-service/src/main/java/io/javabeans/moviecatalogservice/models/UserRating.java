@@ -1,4 +1,4 @@
-package io.javabrains.ratingdataservice.model;
+package io.javabeans.moviecatalogservice.models;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package io.javabeans.moviecatalogservice.resources;
 import io.javabeans.moviecatalogservice.models.CatalogItem;
 import io.javabeans.moviecatalogservice.models.Movie;
 import io.javabeans.moviecatalogservice.models.Rating;
+import io.javabeans.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,26 +30,25 @@ public class MovieCatalogResource {
 
     @GetMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
-        List<Rating> ratings = Arrays.asList(
-                new Rating("123", 4),
-                new Rating("5678", 5)
-        );
+        //get all rated movie ID's
 
+        UserRating userrating = restTemplate.getForObject("http://localhost:8083/ratingsdata/users/" + userId, UserRating.class);
+        List<Rating> ratings = userrating.getUserRating();
         return ratings.stream().map(rating -> {
-            //Movie movie = restTemplate.getForObject("http://localhost:8082/movie/" + rating.getMovieId(), Movie.class);
-            Movie movie = webClient.build()
+            //For each movie Id, call movie info service and get details
+
+            Movie movie = restTemplate.getForObject("http://localhost:8082/movie/" + rating.getMovieId(), Movie.class);
+
+          /*  Movie movie = webClient.build()
                     .get()
                     .uri("http://localhost:8082/movie/" + rating.getMovieId())
                     .retrieve()
-                    .bodyToMono(Movie.class).block();
+                    .bodyToMono(Movie.class).block();*/
 
-
+            //put them all together
             return new CatalogItem(movie.getName(), "Test", rating.getRating());
         }).collect(Collectors.toList());
-        //get all rated movie ID's
-        //For each movie Id, call movie info service and get details
 
-        //put them all together
         //  return Collections.singletonList(new CatalogItem("Transformers", "test", 4));
 
     }
