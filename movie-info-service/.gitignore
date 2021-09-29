@@ -28,6 +28,7 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+movie-info-service/src/main/resources/api-key.properties
 
 ### VS Code ###
 .vscode/
