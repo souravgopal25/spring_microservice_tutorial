@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tuser")
 public class User {
-    public User(int id, String userName, String password, boolean active, String roles) {
-        this.id = id;
+    public User(String userName, String password, boolean active, String roles) {
+
         this.userName = userName;
         this.password = password;
         this.active = active;
