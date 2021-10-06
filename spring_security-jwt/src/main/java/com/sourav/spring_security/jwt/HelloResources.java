@@ -19,7 +19,7 @@ public class HelloResources {
     private MyUserDetailService userDetailService;
     @Autowired
     private JwtUtil jwtTokenUtil;
-    @RequestMapping("/")
+    @RequestMapping("/hello")
     public String home() {
         return "<H1>Hello World!<H1>";
     }
@@ -27,7 +27,9 @@ public class HelloResources {
     @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)throws Exception{
           try{
-              authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),authenticationRequest.getPassword()));
+              authenticationManager.authenticate(
+                      new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+                              authenticationRequest.getPassword()));
           }catch (BadCredentialsException e){
               throw new Exception("Incorrect Username Password",e);
           }
